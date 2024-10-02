@@ -1,15 +1,12 @@
 <svg width="100%" height="100%" viewBox="0 0 351 234" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <g filter="url(#filter0_d_5159_61143)">
-        <rect x="0.333344" width="350" height="230" rx="25" fill="url(#pattern0_5159_61143)" shape-rendering="crispEdges"/>
-        <rect x="2.33334" y="2" width="346" height="226" rx="23" stroke="#919191" stroke-width="4" shape-rendering="crispEdges"/>
+        <rect x="0.333344" width="350" height="234" rx="25" fill="url(#pattern0_5159_61143)" shape-rendering="crispEdges"/>
     </g>
     <defs>
-        <filter id="filter0_d_5159_61143" x="0.333344" y="0" width="350" height="234" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <filter id="filter0_d_5159_61143" x="0.333344" y="0" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix"/>
             <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
-            <feOffset dy="4"/>
             <feComposite in2="hardAlpha" operator="out"/>
-            <feColorMatrix type="matrix" values="0 0 0 0 0.341176 0 0 0 0 0.341176 0 0 0 0 0.341176 0 0 0 1 0"/>
             <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_5159_61143"/>
             <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_5159_61143" result="shape"/>
         </filter>

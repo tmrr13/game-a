@@ -1,91 +1,92 @@
 import './App.css';
-import {ReactComponent as Lion} from './lion.svg';
-import {ReactComponent as Snake} from './snake.svg';
 import styled from 'styled-components';
-import Ant from './ant';
-import Chicken from './chicken';
-import Snail from './snail';
-import Spider from './spider';
+import { useState } from 'react';
 
 const sampleSection = {
-  title: "4 legs",
   cards: [
     {
-      image: {
-        path: "https:/asdasd",
-      },
-      altText: "image alt text",
-      isCorrect: false,
+      'answers': [
+        {
+          'isCorrect': true,
+          'image': {
+            'path': '/lion.svg',
+            'mime': 'image/png',
+            'copyright': {
+              'license': 'U'
+            }
+          },
+          'altText': 'Lion'
+        },
+        {
+          'isCorrect': false,
+          'image': {
+            'path': '/snake.svg',
+            'mime': 'image/png',
+            'copyright': {
+              'license': 'U'
+            }
+          },
+          'altText': 'Snake'
+        }
+      ],
+      'title': '4 legs'
     },
     {
-      image: {
-        path: "",
-      },
-      altText: "image alt text",
-      isCorrect: true,
+      'answers': [
+        {
+          'isCorrect': false,
+          'image': {
+            'path': '/ant.svg',
+            'mime': 'image/png',
+            'copyright': {
+              'license': 'U'
+            }
+          },
+          'altText': 'Ant'
+        },
+        {
+          'isCorrect': true,
+          'image': {
+            'path': '/chicken.svg',
+            'mime': 'image/png',
+            'copyright': {
+              'license': 'U'
+            }
+          },
+          'altText': 'Chicken'
+        }
+      ],
+      'title': '2 legs'
     },
+    {
+      'answers': [
+        {
+          'isCorrect': true,
+          'image': {
+            'path': '/snail.svg',
+            'mime': 'image/png',
+            'copyright': {
+              'license': 'U'
+            }
+          },
+          'altText': 'Snail'
+        },
+        {
+          'isCorrect': false,
+          'image': {
+            'path': '/spider.svg',
+            'mime': 'image/png',
+            'copyright': {
+              'license': 'U'
+            }
+          },
+          'altText': 'Spider'
+        }
+      ],
+      'title': 'No legs'
+    }
   ]
 };
-
-const data = [
-  {
-    title: "4 legs",
-    cards: [
-      {
-        image: {
-          path: "https:/asdasd",
-        },
-        altText: "image alt text",
-        isCorrect: false,
-      },
-      {
-        image: {
-          path: "",
-        },
-        altText: "image alt text",
-        isCorrect: true,
-      },
-    ]
-  },
-  {
-    title: "2 legs",
-    cards: [
-      {
-        image: {
-          path: "https:/asdasd",
-        },
-        altText: "image alt text",
-        isCorrect: false,
-      },
-      {
-        image: {
-          path: "",
-        },
-        altText: "image alt text",
-        isCorrect: true,
-      },
-    ]
-  },
-  {
-    title: "6 legs",
-    cards: [
-      {
-        image: {
-          path: "https:/asdasd",
-        },
-        altText: "image alt text",
-        isCorrect: false,
-      },
-      {
-        image: {
-          path: "",
-        },
-        altText: "image alt text",
-        isCorrect: true,
-      },
-    ]
-  }
-];
 
 const Container = styled.div`
   display: grid;
@@ -103,11 +104,28 @@ const Column = styled.div`
   padding: 24px 32px 14px;
 `;
 
-const Card = styled.div`
+const Card = styled.button<{ isSelected: boolean }>`
+  align-items: center;
+  border-radius: 28px;
+  border: 4px solid ${({ isSelected }) => (isSelected ? '#1a8cff' : '#919191')};
+  box-shadow: 0 4px 0 0 #575757;
   cursor: pointer;
+  display: flex;
+  position: relative;
   height: 230px;
+  justify-content: center;
   margin-bottom: 30px;
+  overflow: hidden;
+  padding: 0;
   width: 350px;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: red;
+  }
 `;
 
 const Title = styled.div`
@@ -118,41 +136,54 @@ const Title = styled.div`
   text-align: center;
 `;
 
-const renderSVG = (name: string) => {
-  switch (name) {
-    case 'Lion':
-      return <Lion />;
-    case 'Snake':
-      return <Snake />;
-    case 'Ant':
-      return <Ant />;
-    case 'Chicken':
-      return <Chicken />;
-    case 'Snail':
-      return <Snail />;
-    case 'Spider':
-      return <Spider />;
-    default:
-      return null;
-  }
-};
-
-
 const App = () => {
+  const [selectedCards, setSelectedCards] = useState<number[]>([]);
+
+  const handleCardClick = (columnIndex: number, cardIndex: number) => {
+    setSelectedCards((prevSelectedCards) => {
+      const newSelectedCards = [...prevSelectedCards];
+      newSelectedCards[columnIndex] = cardIndex;
+      return newSelectedCards;
+    });
+  };
+
+  const handleCheckClick = () => {
+    const isCorrect = sampleSection.cards.every((column, columnIndex) => {
+      const selectedCardIndex = selectedCards[columnIndex];
+      if (selectedCardIndex === undefined) return false;
+      return column.answers[selectedCardIndex].isCorrect;
+    });
+
+    if (isCorrect) {
+      console.log('Успешно');
+    } else {
+      console.log('Попробуй еще');
+    }
+  };
 
   return (
-    <Container>
-      {data.map((column, columnIndex) => (
-        <Column key={columnIndex}>
-          <Title>{column.title}</Title>
-          {column.cards.map((card, cardIndex) => (
-            <Card key={cardIndex}>
-              {renderSVG(card)}
-            </Card>
-          ))}
-        </Column>
-      ))}
-    </Container>
+    <>
+      <Container>
+        {sampleSection.cards.map((column, columnIndex) => (
+          <Column key={columnIndex}>
+            <Title>{column.title}</Title>
+            {column.answers.map((card, cardIndex) => (
+              <Card
+                key={cardIndex}
+                isSelected={selectedCards[columnIndex] === cardIndex}
+                onClick={() => handleCardClick(columnIndex, cardIndex)}
+              >
+                <img
+                  src={process.env.PUBLIC_URL + card.image.path}
+                  alt={card.altText}
+                />
+              </Card>
+            ))}
+          </Column>
+        ))}
+      </Container>
+      <button onClick={handleCheckClick}>Check</button>
+    </>
   );
 };
 
