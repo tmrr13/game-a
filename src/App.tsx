@@ -10,6 +10,7 @@ const sampleSection = {
       'answers': [
         {
           'isCorrect': true,
+          'text': 'Lion',
           'image': {
             'path': '/lion.svg',
             'mime': 'image/png',
@@ -21,6 +22,7 @@ const sampleSection = {
         },
         {
           'isCorrect': false,
+          'text': 'Snake',
           'image': {
             'path': '/snake.svg',
             'mime': 'image/png',
@@ -37,6 +39,7 @@ const sampleSection = {
       'answers': [
         {
           'isCorrect': false,
+          'text': 'Ant',
           'image': {
             'path': '/ant.svg',
             'mime': 'image/png',
@@ -48,6 +51,7 @@ const sampleSection = {
         },
         {
           'isCorrect': true,
+          'text': 'Chicken',
           'image': {
             'path': '/chicken.svg',
             'mime': 'image/png',
@@ -64,6 +68,7 @@ const sampleSection = {
       'answers': [
         {
           'isCorrect': true,
+          'text': 'Snail',
           'image': {
             'path': '/snail.svg',
             'mime': 'image/png',
@@ -75,6 +80,7 @@ const sampleSection = {
         },
         {
           'isCorrect': false,
+          'text': 'Spider',
           'image': {
             'path': '/spider.svg',
             'mime': 'image/png',
@@ -152,6 +158,14 @@ const IconContainer = styled.div`
   right: 10px;
 `;
 
+const CardText = styled.div`
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 46px;
+  padding: 0 10px;
+  text-align: center;
+`;
+
 const App = () => {
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const [columnResults, setColumnResults] = useState<(boolean | null)[]>(new Array(sampleSection.cards.length).fill(null));
@@ -182,9 +196,9 @@ const App = () => {
 
     setColumnResults(newColumnResults);
     console.log(selectedCards);
-    if (selectedCards.length !== 0) {
-      setIsChecked(true);
-    }
+    // if (selectedCards.length !== 0) {
+    //   setIsChecked(true);
+    // }
 
     const isOverallCorrect = newColumnResults.every(result => result === true);
 
@@ -214,10 +228,14 @@ const App = () => {
                 isChecked={columnResults[columnIndex] !== null && selectedCards[columnIndex] === cardIndex ? column.answers[cardIndex].isCorrect : null}
                 onClick={() => handleCardClick(columnIndex, cardIndex)}
               >
-                <img
-                  src={process.env.PUBLIC_URL + card.image.path}
-                  alt={card.altText}
-                />
+                {card.text ? (
+                  <CardText>{card.text}</CardText>
+                ) : (
+                  <img
+                    src={process.env.PUBLIC_URL + card.image.path}
+                    alt={card.altText}
+                  />
+                )}
                 {columnResults[columnIndex] !== null && selectedCards[columnIndex] === cardIndex && (
                   <IconContainer>
                     {column.answers[cardIndex].isCorrect ? <Correct /> : <Incorrect />}
